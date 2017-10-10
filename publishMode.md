@@ -10,6 +10,7 @@ var listenManager = {
 }
 ```
 ## 注册事件
+```javascript
 webgis.common.addEventListener = function(event, listener, scope, callbackFn){
 		listenerManager[event] = listenerManager[event] || [];
 		var lsnList = listenerManager[event];
@@ -51,8 +52,9 @@ webgis.common.addEventListener = function(event, listener, scope, callbackFn){
 		// 添加Scope
 		_this.addEventListener(event, listener, scope, callbackFn);
 	};
-  
+  ```
 ## 删除事件
+```javascript
 webgis.common.removeEventListener = function(listener){
 		for(var event in listenerManager){
 			var lsnList = listenerManager[event] || [];
@@ -65,7 +67,8 @@ webgis.common.removeEventListener = function(listener){
 			}
 		}
 };
-  
+```
+ ```javascript 
 
 	/**
 	 * 函数功能：触发事件
@@ -93,7 +96,8 @@ webgis.common.removeEventListener = function(listener){
 			}
 		}
 	};
-  
+  ```
+  ```javascript
   webgis.common.check = function(scopes,checkScopes){
 		if(scopes && Array.isArray(checkScopes)){
 			var pass = !Array.isArray(checkScopes[0]);
@@ -108,5 +112,5 @@ webgis.common.removeEventListener = function(listener){
 		}
 		return scopes && checkScopes && scopes.indexOf(checkScopes)>=0;
 	}
-
+```
 
