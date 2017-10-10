@@ -1,0 +1,38 @@
+window.onload = function(){
+	var controlPanle = {
+			init(){
+				this.datas();
+				this.bind();
+			},
+			datas(){
+				this.prof = document.querySelector('#prof');
+				this.aLi  = document.querySelectorAll('.m-panle .s li');
+				this.nstSlider = $('.nstSlider');
+			},
+			bind(){
+				//单选按钮组 
+				this.prof.onclick = function(event){
+					switch(event.target.getAttribute('data-type')){
+						case 'all':
+							heatmap.showAll();
+							break;
+						case 'prof':
+							heatmap.hideAll();
+							break;
+						case 'noProf':
+							heatmap.hideAll();
+							break;
+						default:
+							console.log('digs no this element object .');
+					}
+				}
+				//
+				this.nstSlider.nstSlider({
+		        	"left_grip_selector": ".leftGrip",
+				      "right_grip_selector": ".rightGrip",
+				      "value_bar_selector": ".bar"
+		    });
+			}
+	}
+	controlPanle.init();
+}
