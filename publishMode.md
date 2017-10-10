@@ -68,6 +68,7 @@ webgis.common.removeEventListener = function(listener){
 		}
 };
 ```
+##触发事件
  ```javascript 
 
 	/**
