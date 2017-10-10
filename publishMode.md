@@ -1,6 +1,8 @@
 
 ## 声明管理对象
+```javascript
 var listenerManager = {}
+```
 
 ## 为了拼装成
 ```javascript
@@ -68,7 +70,7 @@ webgis.common.removeEventListener = function(listener){
 		}
 };
 ```
-##触发事件
+## 触发事件
  ```javascript 
 
 	/**
