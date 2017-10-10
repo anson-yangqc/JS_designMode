@@ -3,11 +3,12 @@
 var listenerManager = {}
 
 ## 为了拼装成
+```javascript
 var listenManager = {
 	{"event1":[{"scope":"",sid:"",fns:function(){}},{"scope":"",sid:"",fns:function(){}},{"scope":"",sid:"",fns:function(){}}]},
 	{"event2":[{"scope":"",sid:"",fns:function(){}},{"scope":"",sid:"",fns:function(){}},{"scope":"",sid:"",fns:function(){}}]}
 }
-
+```
 ## 注册事件
 webgis.common.addEventListener = function(event, listener, scope, callbackFn){
 		listenerManager[event] = listenerManager[event] || [];
