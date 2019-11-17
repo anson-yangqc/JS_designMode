@@ -1,0 +1,142 @@
+【】观察者模式（也叫观察者模式（Observer））
+定义：定义对象间的一种一对多的依赖关系。当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并自动更新。
+（很像vue，computed的依赖变化了，定义的变量就会变化，且界面就会刷新）                                                 
+【】订阅者（也叫观察者）                       气象站
+黄明的女朋友         订阅天气=》          代表黄明
+黄明的老妈    《= 发送实时天气预报
+                     给订阅者
+
+场景:当黄明获得最新的天气预报，所有的订阅者（观察者）都会获得最新消息，
+订阅者就会做出相应的业务逻辑处理（做出各自自己的反映）：如
+黄明 女朋友会因天气好坏设置约会的时间和地点；
+黄明老妈就会因为天气好坏而设置购物提醒
+
+【】
+目标（Subject）                            观察者Observer
+天气                                        女朋友、老妈
+有添加观察者的方法加入到观察者列表    
+有删除观察者的方法            
+有Notify（通知方法）：更新天气              收到通知，自动调用Update（）方法
+
+【】js代码实现
+https://www.jianshu.com/p/42c4fb983b81
+class Observer {
+      constructor(fns) {
+        this.fns = fns || [];
+      }
+      //订阅
+      subscribe(fn) {
+        this.fns.push(fn);
+      }
+      // 取消订阅
+      unsubscribe(fn) {
+        this.fns = this.fns.filter((el) => {
+          return el !== fn;
+        });
+      }
+      // 发射
+      update(o) {
+        this.fns.forEach((fn) => {
+          fn(o);
+        })
+      }
+    }
+    //测试
+    var o = new Observer;
+    var f1 = function (data) {
+      console.log('Robbin: ' + data + ', 赶紧干活了！');
+    };
+
+    var f2 = function (data) {
+      console.log('Randall: ' + data + ', 找他加点工资去！');
+    };
+
+    o.subscribe(f1);
+    o.subscribe(f2);
+
+    o.update("Tom回来了！", '666'); 
+    //Robbin: Tom回来了！, 赶紧干活了！ 
+    //Randall: Tom回来了！, 找他加点工资去！
+
+    //退订f1
+    o.unsubscribe(f1);
+    //再来验证
+    o.update("Tom回来了！"); // Randall: Tom回来了！, 找他加点工资去！
+    o.unsubscribe(f2);
+    o.update("Tom回来了！"); // 无打印，因为取消了所有的订阅
+
+
+【】实现2 适合项目
+https://www.cnblogs.com/minigrasshopper/p/9134196.html
+/**
+ * 发布订阅模式(观察者模式)
+ * handles: 事件处理函数集合
+ * on: 订阅事件
+ * emit: 发布事件
+ * off: 删除事件
+**/
+
+class PubSub {
+  constructor() {
+    this.handles = {};
+  }
+
+  // 订阅事件
+  on(eventType, handle) {
+    if (!this.handles.hasOwnProperty(eventType)) {
+      this.handles[eventType] = [];
+    }
+    if (typeof handle == 'function') {
+      this.handles[eventType].push(handle);
+    } else {
+      throw new Error('缺少回调函数');
+    }
+    return this;
+  }
+
+  // 发布事件
+  emit(eventType, ...args) {
+    if (this.handles.hasOwnProperty(eventType)) {
+      this.handles[eventType].forEach((item, key, arr) => {
+        item.apply(null, args);
+      })
+    } else {
+      throw new Error(`"${eventType}"事件未注册`);
+    }
+    return this;
+  }
+
+  // 删除事件
+  off(eventType, handle) {
+    if (!this.handles.hasOwnProperty(eventType)) {
+      throw new Error(`"${eventType}"事件未注册`);
+    } else if (typeof handle != 'function') {
+      throw new Error('缺少回调函数');
+    } else {
+      this.handles[eventType].forEach((item, key, arr) => {
+        if (item == handle) {
+          arr.splice(key, 1);
+        }
+      })
+    }
+    return this; // 实现链式操作
+  }
+}
+
+// 下面做一些骚操作
+let callback = function () {
+  console.log('you are so nice');
+}
+
+let pubsub = new PubSub();
+pubsub.on('completed', (...args) => {
+  console.log(args.join(' '));
+}).on('completed', callback);
+
+pubsub.emit('completed', 'what', 'a', 'fucking day');
+pubsub.off('completed', callback);
+pubsub.emit('completed', 'fucking', 'again');
+
+
+
+
